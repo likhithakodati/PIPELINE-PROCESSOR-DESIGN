@@ -1,0 +1,30 @@
+`timescale 1ns/1ps
+
+module tb_pipeline;
+
+reg clk;
+reg reset;
+
+pipeline_processor uut(
+    .clk(clk),
+    .reset(reset)
+);
+
+initial begin
+    clk = 0;
+    forever #5 clk = ~clk;  // 10ns clock
+end
+
+initial begin
+    $dumpfile("pipeline.vcd");
+    $dumpvars(0, tb_pipeline);
+
+    reset = 1;
+    #10;
+    reset = 0;
+
+    #200;
+    $finish;
+end
+
+endmodule
